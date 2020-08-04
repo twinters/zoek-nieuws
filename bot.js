@@ -1,3 +1,5 @@
+
+// Dealing with run duration
 const getCurrentNumberMilliSeconds = function () {
         return new Date().getTime();
     },
@@ -8,27 +10,27 @@ const getCurrentNumberMilliSeconds = function () {
 
     // Determining when to stop
     runTimeMilliSeconds = runTimeMinutes * 60 * 1000,
-    endTime = getCurrentNumberMilliSeconds() + runTimeMilliSeconds,
+    endTime = getCurrentNumberMilliSeconds() + runTimeMilliSeconds;
 
-    // Main functionality: replying to new mentions
-    replyToNewMentions = function() {
-        console.log("To do: replying to new mentions");
-    },
 
-    // Main loop: checking for new mentions
-    checkForNewMentions = function () {
+// Dealing with new mentions
+const replyToNewMentions = function () {
+    console.log("To do: replying to new mentions");
+};
 
-        // Reply to new mentions for new mentions
-        replyToNewMentions();
 
-        // Schedule next check twitterbot
-        const currentNumberOfMilliSeconds = getCurrentNumberMilliSeconds();
-        console.log(currentNumberOfMilliSeconds, "\n"+endTime);
-        if (currentNumberOfMilliSeconds < endTime) {
-            setTimeout(checkForNewMentions, checkEveryMinutes * 60 * 1000 )
-        } else {
-            process.exit();
-        }
-    };
+// Main loop: checking for new mentions
+const checkForNewMentions = function () {
+
+    // Reply to new mentions for new mentions
+    replyToNewMentions();
+
+    // Schedule next check twitterbot iteration
+    if (getCurrentNumberMilliSeconds() < endTime) {
+        setTimeout(checkForNewMentions, checkEveryMinutes * 60 * 1000)
+    } else {
+        process.exit();
+    }
+};
 
 checkForNewMentions();
