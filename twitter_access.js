@@ -1,5 +1,4 @@
 const Twit = require('twit');
-const ownTwitterId = 1290769367471403008;
 
 // Twitter access
 const hasAuthentication = process.env.consumer_key && process.env.consumer_secret && process.env.access_token && process.env.access_token_secret,
