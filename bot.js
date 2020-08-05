@@ -16,7 +16,7 @@ async function mentionReplier(mention) {
     const articles = await newsSelector.search(topic, maxNumberOfArticles);
     console.log("Found articles about ", topic, ":\n", articles);
 
-    return "Hier zijn enkele artikels over '" + topic + "':\n"
+    return "Hier zijn enkele artikels over \"" + topic + "\":\n"
         + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
 }
 
