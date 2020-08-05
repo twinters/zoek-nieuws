@@ -1,4 +1,4 @@
-const replyToNewMentions = require("./tweet_behaviour").replyToNewMentions;
+const replyToNewMentions = require("./mention_manager").replyToNewMentions;
 const executeEveryCoupleMinutes = require('./execute_loop').executeEveryCoupleMinutes;
 
 // Dealing with run duration
@@ -6,4 +6,8 @@ const runTimeMinutes = process.argv[2] || 1,
     checkEveryMinutes = process.argv[3] || 5;
 
 
-executeEveryCoupleMinutes(runTimeMinutes, checkEveryMinutes, replyToNewMentions);
+const mentionReplier = function (mention) {
+    return "Test";
+}
+
+executeEveryCoupleMinutes(runTimeMinutes, checkEveryMinutes, replyToNewMentions(mentionReplier));
