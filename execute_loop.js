@@ -2,16 +2,16 @@ const getCurrentNumberMilliSeconds = function () {
     return new Date().getTime();
 };
 
-function executeEveryCoupleMinutes(totalRunTimeMinutes, checkEveryMinutes, replyFunction) {
+async function executeEveryCoupleMinutes(totalRunTimeMinutes, checkEveryMinutes, replyFunction) {
     // Determining when to stop
     const runTimeMilliSeconds = totalRunTimeMinutes * 60 * 1000,
         endTime = getCurrentNumberMilliSeconds() + runTimeMilliSeconds;
 
     // Main loop: checking for new mentions
-    const checkForNewMentions = function () {
+    const checkForNewMentions = async function () {
 
         // Reply to new mentions for new mentions
-        replyFunction();
+        await replyFunction();
 
         // Schedule next check twitterbot iteration
         if (getCurrentNumberMilliSeconds() <= endTime) {
@@ -20,7 +20,7 @@ function executeEveryCoupleMinutes(totalRunTimeMinutes, checkEveryMinutes, reply
             process.exit();
         }
     };
-    checkForNewMentions();
+    await checkForNewMentions();
 }
 
 exports.executeEveryCoupleMinutes = executeEveryCoupleMinutes;

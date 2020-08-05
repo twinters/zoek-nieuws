@@ -13,13 +13,14 @@ if (!hasAuthentication) {
 }
 
 // Dealing with new mentions
-function findLastRepliedToMention() {
+let lastRepliedMentionId = "1";
+
+async function findAndSetLastRepliedToMention() {
     return '123' // TODO
 }
 
-const lastRepliedMentionId = findLastRepliedToMention();
-
-function replyToNewMentions(mentionReplier) {
+async function replyToNewMentions(mentionReplier) {
+    await findAndSetLastRepliedToMention();
     return function () {
         T.get('statuses/mentions_timeline', {
             count: 100,
@@ -29,7 +30,7 @@ function replyToNewMentions(mentionReplier) {
                 console.error(err);
                 throw err;
             }
-            console.log(mentions);
+            console.log("Mentions:", mentions);
             for (let mention of mentions) {
 
                 const mention_id = mention.id_str,

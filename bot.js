@@ -10,14 +10,21 @@ const runTimeMinutes = process.argv[2] || 1,
 
 const maxNumberOfArticles = 5;
 
-function mentionReplier(mention) {
+async function mentionReplier(mention) {
     const topic = topicDiscoverer.discoverFromMention(mention);
 
-    const articles = newsSelector.search(topic, maxNumberOfArticles);
+    const articles = await newsSelector.search(topic, maxNumberOfArticles);
     console.log("Found articles about ", topic, ":\n", articles);
 
     return "Hier zijn enkele artikels over '" + topic + "':\n"
-        + articles.slice(0, maxNumberOfArticles).join("\n");
+        + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
 }
 
-executeEveryCoupleMinutes(runTimeMinutes, checkEveryMinutes, replyToNewMentions(mentionReplier));
+(async () => {
+    await executeEveryCoupleMinutes(runTimeMinutes, checkEveryMinutes, await replyToNewMentions(mentionReplier));
+})();
+
+// Test function
+// (async () => {
+//     console.log(await mentionReplier({text: "dit is een \"test\""}))
+// })();
