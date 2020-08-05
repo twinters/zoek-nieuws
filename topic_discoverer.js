@@ -7,10 +7,16 @@ function extractTweetText(text) {
     return splitted.slice(firstMeaningfulWord).join(" ");
 }
 
+const bracketRegex = /["'](.*?)["']/;
 function discoverFromMention(mention) {
-    // TODO: extract between quote marks
     // TODO: extract from tweet above using frequency analysis
-    return extractTweetText(mention.text);
+    const tweetText = extractTweetText(mention.text);
+
+    if (tweetText.match(bracketRegex)) {
+        return tweetText.match(bracketRegex)[1]
+    }
+
+    return tweetText;
 }
 
 exports.discoverFromMention = discoverFromMention;
