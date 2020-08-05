@@ -8,6 +8,8 @@ function extractTweetText(text) {
 }
 
 function discoverFromMention(mention) {
+    // TODO: extract between quote marks
+    // TODO: extract from tweet above using frequency analysis
     return extractTweetText(mention.text);
 }
 
