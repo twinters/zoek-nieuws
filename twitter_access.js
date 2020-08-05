@@ -13,50 +13,51 @@ if (!hasAuthentication) {
 }
 
 // Dealing with new mentions
-const
-    findLastRepliedToMention = function () {
-        return '123' // TODO
-    },
-    lastRepliedMentionId = findLastRepliedToMention(),
-    replyToNewMentions = function (mentionReplier) {
-        return function () {
-            T.get('statuses/mentions_timeline', {
-                count: 100,
-                since_id: lastRepliedMentionId
-            }, function (err, mentions, response) {
-                if (err) {
-                    console.error(err);
-                    throw err;
-                }
-                console.log(mentions);
-                for (let mention of mentions) {
+function findLastRepliedToMention() {
+    return '123' // TODO
+}
 
-                    const mention_id = mention.id_str,
-                        mention_username = mention.user.screen_name;
+const lastRepliedMentionId = findLastRepliedToMention();
 
-                    // Check if tweet still has id etc
-                    if (mention_id && mention_username) {
-                        const replyText = mentionReplier(mention);
+function replyToNewMentions(mentionReplier) {
+    return function () {
+        T.get('statuses/mentions_timeline', {
+            count: 100,
+            since_id: lastRepliedMentionId
+        }, function (err, mentions, response) {
+            if (err) {
+                console.error(err);
+                throw err;
+            }
+            console.log(mentions);
+            for (let mention of mentions) {
 
-                        // Check if reply text is generated
-                        if (replyText) {
-                            T.post('statuses/update',
-                                {
-                                    in_reply_to_status_id: mention.id_str,
-                                    status: "@" + mention_username + " " + replyText
-                                },
-                                function (err, data, response) {
-                                    console.log("Posted tweet", data.text)
-                                });
-                        } else {
-                            console.log("No reply text given");
-                        }
+                const mention_id = mention.id_str,
+                    mention_username = mention.user.screen_name;
+
+                // Check if tweet still has id etc
+                if (mention_id && mention_username) {
+                    const replyText = mentionReplier(mention);
+
+                    // Check if reply text is generated
+                    if (replyText) {
+                        T.post('statuses/update',
+                            {
+                                in_reply_to_status_id: mention.id_str,
+                                status: "@" + mention_username + " " + replyText
+                            },
+                            function (err, data, response) {
+                                console.log("Posted tweet", data.text)
+                            });
+                    } else {
+                        console.log("No reply text given");
                     }
-
                 }
-            })
-        }
-    };
+
+            }
+        })
+    }
+};
 
 
 exports.replyToNewMentions = replyToNewMentions;
