@@ -1,9 +1,9 @@
-const vrtnu = require('./news_sources/vrt_nu');
+const vrtnu = require('./news_sources/vrt_nws');
 
 const newsSources = [vrtnu];
 
-function search (topic) {
-    return newsSources.flatMap(n => n.search(topic));
-};
+async function search(topic) {
+    return (await Promise.all(newsSources.map(n => n.search(topic)))).flatMap(e=>e)
+}
 
 exports.search = search;
