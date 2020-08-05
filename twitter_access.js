@@ -13,10 +13,31 @@ if (!hasAuthentication) {
 }
 
 // Dealing with new mentions
-let lastRepliedMentionId = "1";
+let lastRepliedMentionId = 1;
+const ownTwitterId = '1290769367471403008';
 
 async function findAndSetLastRepliedToMention() {
-    return '123' // TODO
+    try {
+        const lastTweets = await new Promise((resolve, reject) => {
+            T.get('statuses/user_timeline', {
+                count: 10,
+                user_id: ownTwitterId
+            }, function (err, data, response) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            });
+        });
+        for (let lastTweet of lastTweets) {
+            lastRepliedMentionId = Math.max(lastRepliedMentionId, parseInt(lastTweet.in_reply_to_status_id_str));
+        }
+        return lastRepliedMentionId
+    } catch (err) {
+        console.error("Error while finding last mentioned tweet");
+        throw err;
+    }
 }
 
 async function replyToNewMentions(mentionReplier) {
@@ -24,21 +45,22 @@ async function replyToNewMentions(mentionReplier) {
     return function () {
         T.get('statuses/mentions_timeline', {
             count: 100,
-            since_id: lastRepliedMentionId
-        }, function (err, mentions, response) {
+            since_id: (lastRepliedMentionId + '')
+        }, async function (err, mentions, response) {
             if (err) {
                 console.error(err);
                 throw err;
             }
             console.log("Mentions:", mentions);
             for (let mention of mentions) {
+                console.log("Replying to", mention.id_str);
 
                 const mention_id = mention.id_str,
                     mention_username = mention.user.screen_name;
 
                 // Check if tweet still has id etc
-                if (mention_id && mention_username) {
-                    const replyText = mentionReplier(mention);
+                if (parseInt(mention.id_str) > lastRepliedMentionId && mention_id && mention_username) {
+                    const replyText = await mentionReplier(mention);
 
                     // Check if reply text is generated
                     if (replyText) {
@@ -48,12 +70,19 @@ async function replyToNewMentions(mentionReplier) {
                                 status: "@" + mention_username + " " + replyText
                             },
                             function (err, data, response) {
-                                console.log("Posted tweet", data.text)
+                                if (err) {
+                                    console.error("Had error", err);
+                                } else {
+                                    console.log("Posted tweet", data.text)
+                                }
                             });
                     } else {
                         console.log("No reply text given");
                     }
                 }
+
+                // Update last reply
+                lastRepliedMentionId = Math.max(lastRepliedMentionId, parseInt(mention.id_str));
 
             }
         })
