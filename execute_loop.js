@@ -2,7 +2,7 @@ const getCurrentNumberMilliSeconds = function () {
     return new Date().getTime();
 };
 
-const executeEveryCoupleMinutes = function (totalRunTimeMinutes, checkEveryMinutes, replyFunction) {
+function executeEveryCoupleMinutes(totalRunTimeMinutes, checkEveryMinutes, replyFunction) {
     // Determining when to stop
     const runTimeMilliSeconds = totalRunTimeMinutes * 60 * 1000,
         endTime = getCurrentNumberMilliSeconds() + runTimeMilliSeconds;
@@ -21,6 +21,6 @@ const executeEveryCoupleMinutes = function (totalRunTimeMinutes, checkEveryMinut
         }
     };
     checkForNewMentions();
-};
+}
 
 exports.executeEveryCoupleMinutes = executeEveryCoupleMinutes;
