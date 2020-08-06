@@ -1,7 +1,7 @@
-const axios = require('axios');
+const searcherUtil = require('../searcher_util');
 
 async function search(topic) {
-    const rawData = await searchRaw(topic);
+    const rawData = await searcherUtil.searchRaw(`https://search.vrt.be/advancedSearch?i=nws&q=${topic}&highlight=true`);
 
     if (!rawData) {
         return []
@@ -27,19 +27,8 @@ async function search(topic) {
     return articles;
 }
 
-async function searchRaw(topic) {
-    const url = `https://search.vrt.be/advancedSearch?i=nws&q=${topic}&highlight=true`;
-
-    let rawArticleData = null;
-    await (async () => {
-        try {
-            const response = await axios.get(url);
-            rawArticleData = response.data;
-        } catch (error) {
-            console.log("error in searching vrt nws:", error.response.body);
-        }
-    })();
-    return rawArticleData;
-}
-
 exports.search = search;
+
+(async () => {
+    console.log(await search("test"));
+})();

@@ -1,9 +1,9 @@
-const axios = require('axios');
+const searcherUtil = require('../searcher_util');
 const $ = require('cheerio');
 const moment = require('moment');
 
 async function search(topic) {
-    const rawData = await searchRaw(topic);
+    const rawData = await searcherUtil.searchRaw(`https://www.standaard.be/zoeken?keyword=${topic}`);
 
     if (!rawData) {
         return []
@@ -29,21 +29,6 @@ async function search(topic) {
     });
 
     return articles;
-}
-
-async function searchRaw(topic) {
-    const url = `https://www.standaard.be/zoeken?keyword=${topic}`;
-
-    let rawArticleData = null;
-    await (async () => {
-        try {
-            const response = await axios.get(url);
-            rawArticleData = response.data;
-        } catch (error) {
-            console.log("error in searching de standaard:", error.response.body);
-        }
-    })();
-    return rawArticleData;
 }
 
 exports.search = search;
