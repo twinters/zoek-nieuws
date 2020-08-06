@@ -9,6 +9,8 @@ async function search(topic) {
     allArticles.sort(function (a, b) {
         return b.date - a.date;
     });
+
+    return allArticles
 }
 
 exports.search = search;
