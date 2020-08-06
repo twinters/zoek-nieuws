@@ -1,11 +1,10 @@
-const topicDiscoverer = require("./topic_discoverer");
-const replyToNewMentions = require("./twitter_access").replyToNewMentions;
-const executeEveryCoupleMinutes = require('./execute_loop').executeEveryCoupleMinutes;
-const newsSelector = require('./news_selector');
+/*
+This class can be used as a test class for the reply mechanism
+Provide a "test mention" by running `node bot.js 'test'`, with any text of your liking between the quote marks.
+ */
 
-// Dealing with run duration
-const runTimeMinutes = process.argv[2] || 1,
-    checkEveryMinutes = process.argv[3] || 5;
+const topicDiscoverer = require("./topic_discoverer");
+const newsSelector = require('./news_selector');
 
 
 const maxNumberOfArticles = 5;
@@ -14,17 +13,24 @@ async function mentionReplier(mention) {
     const topic = topicDiscoverer.discoverFromMention(mention);
 
     const articles = await newsSelector.search(topic, maxNumberOfArticles);
-    console.log("Found articles about ", topic, ":\n", articles);
+    console.log("Found articles about", topic, ":\n", articles);
 
-    return "Hier zijn enkele artikels over \"" + topic + "\":\n"
-        + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
+    if (articles) {
+        return "Hier zijn enkele artikels over \"" + topic + "\":\n"
+            + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
+    } else {
+        console.log("No articles found");
+    }
 }
 
-(async () => {
-    await executeEveryCoupleMinutes(runTimeMinutes, checkEveryMinutes, await replyToNewMentions(mentionReplier));
-})();
+exports.mentionReplier = mentionReplier;
 
 // Test function
-// (async () => {
-//     console.log(await mentionReplier({text: "dit is een \"test\""}))
-// })();
+(async () => {
+    // Create fake mention
+    const mockMention = {
+        text: process.argv[2] || "@ZoekNieuws dit is een \"test\""
+    };
+
+    console.log(await mentionReplier(mockMention))
+})();
