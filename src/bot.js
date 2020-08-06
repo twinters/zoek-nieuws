@@ -26,11 +26,14 @@ async function mentionReplier(mention) {
 exports.mentionReplier = mentionReplier;
 
 // Test function
-(async () => {
-    // Create fake mention
-    const mockMention = {
-        text: process.argv[2] || "@ZoekNieuws dit is een \"test\""
-    };
+const arg = process.argv[2];
+if (arg) {
+    (async () => {
+        // Create fake mention
+        const mockMention = {
+            text: arg || "@ZoekNieuws dit is een \"test\""
+        };
 
-    console.log(await mentionReplier(mockMention))
-})();
+        console.log(await mentionReplier(mockMention))
+    })();
+}

@@ -29,6 +29,6 @@ async function search(topic) {
 
 exports.search = search;
 
-(async () => {
-    console.log(await search("test"));
-})();
+// (async () => {
+//     console.log(await search("test"));
+// })();
