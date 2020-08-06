@@ -11,4 +11,4 @@ This Twitterbot aims to give people easy access to recent news about a certain t
 ## Contributions
 
 Contributions are very welcome. Especially adding new news sources is very much appreciated.
-Fork the repository and add your news source to the `/news_sources` folder, and send a pull request!
+Fork the repository and add your news source to the `/src/news_sources` folder, and send a pull request!
