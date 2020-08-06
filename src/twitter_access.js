@@ -47,6 +47,7 @@ async function replyToNewMentions(mentionReplier) {
             count: 100,
             since_id: (lastRepliedMentionId + '')
         }, async function (err, mentions, response) {
+            mentions = mentions.filter(m => parseInt(m.id_str) > lastRepliedMentionId)
             if (err) {
                 console.error(err);
                 throw err;
@@ -59,7 +60,7 @@ async function replyToNewMentions(mentionReplier) {
                     mention_username = mention.user.screen_name;
 
                 // Check if tweet still has id etc
-                if (parseInt(mention.id_str) > lastRepliedMentionId && mention_id && mention_username) {
+                if (mention_id && mention_username) {
                     const replyText = await mentionReplier(mention);
 
                     // Check if reply text is generated
