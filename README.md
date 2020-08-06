@@ -6,7 +6,7 @@ This Twitterbot aims to give people easy access to recent news about a certain t
 
 - Make sure you have [NodeJS](https://nodejs.org/en/) installed
 - Run `npm install` in the main directory
-- Run `node bot.js 'any text here'` to query the bot with any test query
+- Run `node src/bot.js 'any text here'` to query the bot with any test query
 
 ## Contributions
 
