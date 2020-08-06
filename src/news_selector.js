@@ -1,9 +1,14 @@
-const vrtnu = require('./news_sources/vrt_nws');
+// Load all news sources from the news_sources folder
+const newsSources = {};
+const normalizedPath = require("path").join(__dirname, "news_sources");
+require("fs").readdirSync(normalizedPath).forEach(function (file) {
+    newsSources[file] = require("./news_sources/" + file);
+});
 
-const newsSources = [vrtnu];
-
+// Search function: search for the topic in all searchers
 async function search(topic) {
-    const allArticles = (await Promise.all(newsSources.map(n => n.search(topic)))).flatMap(e => e);
+    const newsSourcesSearchers = Object.keys(newsSources).map(k => newsSources[k]);
+    const allArticles = (await Promise.all(newsSourcesSearchers.map(n => n.search(topic)))).flatMap(e => e);
 
     // Sort so most recent article first
     allArticles.sort(function (a, b) {
@@ -14,3 +19,7 @@ async function search(topic) {
 }
 
 exports.search = search;
+
+(async () => {
+    console.log(await search("test"));
+})();

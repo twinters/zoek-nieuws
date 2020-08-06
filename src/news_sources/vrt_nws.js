@@ -18,6 +18,7 @@ async function search(topic) {
                 date: new Date(searchResult.articleDates.publicationDate),
                 content: searchResult.content,
                 url: searchResult.externalUrl,
+                source: "VRT NWS"
             })
 
         }

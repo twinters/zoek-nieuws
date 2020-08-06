@@ -24,6 +24,7 @@ async function search(topic) {
             date: momentDate.toDate(),
             content: content,
             url: link,
+            source: "De Standaard",
         })
     });
 
