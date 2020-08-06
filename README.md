@@ -1,4 +1,4 @@
-# zoek-nieuws
+# ZoekNieuws
 
 This Twitterbot aims to give people easy access to recent news about a certain topic.
 
