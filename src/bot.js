@@ -27,7 +27,7 @@ async function mentionReplier(mention) {
     if (topic.trim().length === 0 && mention.in_reply_to_status) {
         topic = topicDiscoverer.discoverFromMention(mention.in_reply_to_status);
 
-        forceTopicMaxLength(topic);
+        topic = forceTopicMaxLength(topic);
     }
 
 
