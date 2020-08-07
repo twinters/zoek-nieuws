@@ -18,6 +18,10 @@ But also at the tweet of someone else by replying to it
 - `Waarom staat er niks in de krant over het sportpaleis optreden van de kreuners deze avond?` - reply: `@ZoekNieuws` -> The bot will search for "krant sportpaleis kreuners"
 - `Waarom staat er niks in de krant over het sportpaleis optreden van de kreuners deze avond?` - reply: `@ZoekNieuws "sportpaleis kreuners"` -> The bot will search for " sportpaleis kreuners"
 
+## Origin of the bot
+
+This bot was created out of [a need @ArbiterOfTweets](https://twitter.com/ArbiterOfTweets/status/1290398319026593793) had for easily showing relevant news articles.
+
 ## Installation
 
 - Make sure you have [NodeJS](https://nodejs.org/en/) installed
