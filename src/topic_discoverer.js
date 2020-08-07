@@ -8,9 +8,11 @@ function extractTweetText(text) {
 }
 
 const bracketRegex = /["'](.*?)["']/;
+
 function discoverFromMention(mention) {
-    // TODO: extract from tweet above using frequency analysis
-    const tweetText = extractTweetText(mention.text);
+    const tweetText = extractTweetText(mention.text)
+        // Replace all punctuations
+        .replace(/[.,\/#!$;:{}=_`~()]/g, "");
 
     if (tweetText.match(bracketRegex)) {
         return tweetText.match(bracketRegex)[1]
