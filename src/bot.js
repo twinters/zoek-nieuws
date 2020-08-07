@@ -16,16 +16,23 @@ async function mentionReplier(mention) {
     while (topic.length > maxTopicLength) {
         topic = simplifyTopic(topic);
     }
+    if (topic.trim().length === 0) {
+        // TODO: look at tweet above
+    }
+    
 
+    if (topic.trim().length > 0) {
+        const articles = await newsSelector.search(topic, maxNumberOfArticles);
+        console.log("Found articles about", topic, ":\n", articles);
 
-    const articles = await newsSelector.search(topic, maxNumberOfArticles);
-    console.log("Found articles about", topic, ":\n", articles);
-
-    if (articles) {
-        return "Hier zijn enkele artikels over \"" + topic + "\":\n"
-            + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
+        if (articles && articles.length) {
+            return "Hier zijn enkele artikels over \"" + topic + "\":\n"
+                + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
+        } else {
+            console.log("No articles found");
+        }
     } else {
-        console.log("No articles found");
+        console.log("Empty topic for", mention);
     }
 }
 

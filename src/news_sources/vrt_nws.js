@@ -3,7 +3,7 @@ const searcherUtil = require('../searcher_util');
 async function search(topic) {
     const rawData = await searcherUtil.searchRaw(`https://search.vrt.be/advancedSearch?i=nws&q=${topic}&highlight=true`);
 
-    if (!rawData) {
+    if (!rawData || !rawData.results || !rawData.results.length) {
         return []
     }
 
