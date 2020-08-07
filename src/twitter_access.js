@@ -78,7 +78,7 @@ async function replyToNewMentions(mentionReplier) {
             since_id: (lastRepliedMentionId + ''),
         }, async function (err, mentions, response) {
             if (!mentions || !mentions.length) {
-                console.error("No mentions found!", err, response);
+                console.error("No mentions found!", err, response.data);
             }
 
             mentions = mentions.filter(m => parseInt(m.id_str) > lastRepliedMentionId);
@@ -86,7 +86,7 @@ async function replyToNewMentions(mentionReplier) {
                 console.error(err);
                 throw err;
             }
-            console.log("Mentions:", mentions.length, "\n", mentions.map(m => m.text));
+            console.log("Mentions:", mentions.length, "\n", mentions.map(m => m.user.screen_name + ": " + m.text));
             for (let mention of mentions) {
                 console.log("Replying to", mention.id_str);
 
