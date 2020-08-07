@@ -24,11 +24,11 @@ async function mentionReplier(mention) {
     topic = forceTopicMaxLength(topic);
 
     // Find topic in tweet above if topic is not found
-    // if (topic.trim().length === 0) {
-    //     // TODO: look at tweet above
-    //
-    //     forceTopicMaxLength(topic);
-    // }
+    if (topic.trim().length === 0 && mention.in_reply_to_status) {
+        topic = topicDiscoverer.discoverFromMention(mention.in_reply_to_status);
+
+        forceTopicMaxLength(topic);
+    }
 
 
     let articles = [];
