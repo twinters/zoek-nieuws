@@ -5,12 +5,18 @@ Provide a "test mention" by running `node bot.js 'test'`, with any text of your 
 
 const topicDiscoverer = require("./topic_discoverer");
 const newsSelector = require('./news_selector');
+const {simplifyTopic} = require("./topic_simplifier");
 
-
+const maxTopicLength = 30;
 const maxNumberOfArticles = 5;
 
 async function mentionReplier(mention) {
-    const topic = topicDiscoverer.discoverFromMention(mention);
+    let topic = topicDiscoverer.discoverFromMention(mention);
+
+    while (topic.length > maxTopicLength) {
+        topic = simplifyTopic(topic);
+    }
+
 
     const articles = await newsSelector.search(topic, maxNumberOfArticles);
     console.log("Found articles about", topic, ":\n", articles);
