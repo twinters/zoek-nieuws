@@ -44,7 +44,7 @@ async function findAndSetLastRepliedToMention() {
 async function getTweet(id) {
     try {
         return await new Promise((resolve, reject) => {
-            T.get(`statuses/show/${id}`, {}, function (err, data, response) {
+            T.get(`statuses/show/${id}`, {tweet_mode: 'extended'}, function (err, data, response) {
                 if (err) {
                     reject(err);
                 } else {
@@ -69,7 +69,8 @@ async function replyToNewMentions(mentionReplier) {
     return function () {
         T.get('statuses/mentions_timeline', {
             count: 100,
-            since_id: (lastRepliedMentionId + '')
+            since_id: (lastRepliedMentionId + ''),
+            tweet_mode: 'extended'
         }, async function (err, mentions, response) {
             mentions = mentions.filter(m => parseInt(m.id_str) > lastRepliedMentionId);
             if (err) {
