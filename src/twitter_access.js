@@ -32,7 +32,12 @@ async function findAndSetLastRepliedToMention() {
             });
         });
         for (let lastTweet of lastTweets) {
-            lastRepliedMentionId = Math.max(lastRepliedMentionId, parseInt(lastTweet.in_reply_to_status_id_str));
+            const lastTweetReplyToId= lastTweet.in_reply_to_status_id_str;
+            if (lastTweetReplyToId && lastTweetReplyToId+'' !== "NaN") {
+                if (lastTweetReplyToId > lastRepliedMentionId) {
+                    lastRepliedMentionId = lastTweet.in_reply_to_status_id_str;
+                }
+            }
         }
         return lastRepliedMentionId
     } catch (err) {
@@ -72,6 +77,10 @@ async function replyToNewMentions(mentionReplier) {
             count: 100,
             since_id: (lastRepliedMentionId + ''),
         }, async function (err, mentions, response) {
+            if (!mentions || !mentions.length) {
+                console.error("No mentions found!", err, response);
+            }
+
             mentions = mentions.filter(m => parseInt(m.id_str) > lastRepliedMentionId);
             if (err) {
                 console.error(err);
