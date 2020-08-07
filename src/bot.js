@@ -56,7 +56,7 @@ async function mentionReplier(mention) {
     }
 
     if (articles && articles.length) {
-        console.log("Found articles about", topic, ":\n", articles && articles.length);
+        console.log("Found",articles && articles.length,"articles about", topic);
         return "Hier zijn enkele artikels over \"" + topic + "\":\n"
             + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
     } else {
