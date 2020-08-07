@@ -2,7 +2,7 @@ function extractTweetText(text) {
     if (!text) {
         return "";
     }
-    const splitted = text.split(" ");
+    const splitted = text.split(" ").filter(word=>!word.startsWith("http"));
     let firstMeaningfulWord = 0;
     while (firstMeaningfulWord < splitted.length && splitted[firstMeaningfulWord].startsWith("@")) {
         firstMeaningfulWord += 1;
