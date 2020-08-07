@@ -35,7 +35,7 @@ async function mentionReplier(mention) {
     topic = forceTopicMaxLength(topic);
 
     // Find topic in tweet above if topic is not found
-    if (topic && topic.trim().length === 0 && mention.in_reply_to_status) {
+    if ((!topic || topic.trim().length === 0) && mention.in_reply_to_status) {
         topic = topicDiscoverer.discoverFromMention(mention.in_reply_to_status);
 
         topic = forceTopicMaxLength(topic);
@@ -51,9 +51,9 @@ async function mentionReplier(mention) {
             topic = simplifyTopic(topic);
         }
     }
-    console.log("Found articles about", topic, ":\n", articles);
 
     if (articles && articles.length) {
+        console.log("Found articles about", topic, ":\n", articles);
         return "Hier zijn enkele artikels over \"" + topic + "\":\n"
             + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
     } else {
