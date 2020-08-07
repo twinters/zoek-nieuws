@@ -65,7 +65,7 @@ exports.mentionReplier = mentionReplier;
 
 // Test function
 const arg = process.argv[2];
-if (arg) {
+if (require.main === module && arg) {
     (async () => {
         // Create fake mention
         const mockMention = {
