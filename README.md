@@ -18,6 +18,10 @@ But also at the tweet of someone else by replying to it
 - `Waarom staat er niks in de krant over het sportpaleis optreden van de kreuners deze avond?` - reply: `@ZoekNieuws` -> The bot will search for "krant sportpaleis kreuners"
 - `Waarom staat er niks in de krant over het sportpaleis optreden van de kreuners deze avond?` - reply: `@ZoekNieuws "sportpaleis kreuners"` -> The bot will search for " sportpaleis kreuners"
 
+The bot will thus look for the "rarest" words to use in its search query. Note that this is often not optimal, and using quote brackets is very much encouraged.
+
+If you're also a developer and feeling adventurous, feel free to optimize the algorithm for better search word extraction and send a pull request with your proposal!
+
 ## Origin of the bot
 
 This bot was created out of [a need @ArbiterOfTweets](https://twitter.com/ArbiterOfTweets/status/1290398319026593793) had for easily showing relevant news articles.
