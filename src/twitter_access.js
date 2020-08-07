@@ -21,7 +21,7 @@ async function findAndSetLastRepliedToMention() {
     try {
         const lastTweets = await new Promise((resolve, reject) => {
             T.get('statuses/user_timeline', {
-                count: 10,
+                count: 100,
                 user_id: ownTwitterId
             }, function (err, data, response) {
                 if (err) {
