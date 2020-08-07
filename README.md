@@ -8,6 +8,9 @@ This Twitterbot aims to give people easy access to recent news about a certain t
 - Run `npm install` in the main directory
 - Run `node src/bot.js 'any text here'` to query the bot with any test query
 
+## Data note
+The unigram data is calculated using the [Dutch Twitter Ngram Trends dataset](https://www.let.rug.nl/gosse/Ngrams/download.html).
+
 ## Contributions
 
 Contributions are very welcome. Especially adding new news sources is very much appreciated.
