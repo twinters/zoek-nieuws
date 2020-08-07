@@ -46,7 +46,7 @@ async function mentionReplier(mention) {
 
 
     let articles = [];
-    while (topic.trim().length > 0 && (!articles || !articles.length)) {
+    while (topic && topic.trim().length > 0 && (!articles || !articles.length)) {
         articles = await newsSelector.search(topic, maxNumberOfArticles);
 
         // If nothing found, simplify topic by removing frequent words
