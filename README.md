@@ -13,5 +13,7 @@ The unigram data is calculated using the [Dutch Twitter Ngram Trends dataset](ht
 
 ## Contributions
 
-Contributions are very welcome. Especially adding new news sources is very much appreciated.
-Fork the repository and add your news source to the `/src/news_sources` folder, and send a pull request!
+Contributions are very welcome.
+Adding new news sources (`/src/news_sources`) is especially appreciated!
+
+Fork the repository and update the code, and send a pull request to this repository!
