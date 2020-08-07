@@ -31,8 +31,11 @@ function forceTopicMaxLength(topic) {
 async function mentionReplier(mention) {
     let topic = topicDiscoverer.discoverFromMention(mention);
 
+
     // Make topic shorter
-    topic = forceTopicMaxLength(topic);
+    if (topic) {
+        topic = forceTopicMaxLength(topic);
+    }
 
     // Find topic in tweet above if topic is not found
     if ((!topic || topic.trim().length === 0) && mention.in_reply_to_status) {

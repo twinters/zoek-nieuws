@@ -1,4 +1,7 @@
 function extractTweetText(text) {
+    if (!text) {
+        return "";
+    }
     const splitted = text.split(" ");
     let firstMeaningfulWord = 0;
     while (firstMeaningfulWord < splitted.length && splitted[firstMeaningfulWord].startsWith("@")) {
