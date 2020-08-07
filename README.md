@@ -16,7 +16,7 @@ It can look at your own tweet, regardless of whether it is a reply or not
 But also at the tweet of someone else by replying to it
 - `Zijn er nu nergens artikels over deze "hittegolf"?` - reply: `@ZoekNieuws` -> The bot will search for "hittegolf"
 - `Waarom staat er niks in de krant over het sportpaleis optreden van de kreuners deze avond?` - reply: `@ZoekNieuws` -> The bot will search for "krant sportplaies kreuners"
-- `Waarom staat er niks in de krant over het sportpaleis optreden van de kreuners deze avond?` - reply: `@ZoekNieuws "sportpaleis krueners"` -> The bot will search for " sportplaies kreuners"
+- `Waarom staat er niks in de krant over het sportpaleis optreden van de kreuners deze avond?` - reply: `@ZoekNieuws "sportpaleis kreuners"` -> The bot will search for " sportplaies kreuners"
 
 ## Installation
 
