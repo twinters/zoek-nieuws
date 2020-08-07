@@ -32,8 +32,8 @@ async function findAndSetLastRepliedToMention() {
             });
         });
         for (let lastTweet of lastTweets) {
-            const lastTweetReplyToId= lastTweet.in_reply_to_status_id_str;
-            if (lastTweetReplyToId && lastTweetReplyToId+'' !== "NaN") {
+            const lastTweetReplyToId = lastTweet.in_reply_to_status_id_str;
+            if (lastTweetReplyToId && lastTweetReplyToId + '' !== "NaN") {
                 if (lastTweetReplyToId > lastRepliedMentionId) {
                     lastRepliedMentionId = lastTweet.in_reply_to_status_id_str;
                 }
@@ -64,7 +64,7 @@ async function getTweet(id) {
 }
 
 function mentionIsInReplyToOtherMention(mention) {
-    return mention.in_reply_to_status && mention.in_reply_to_status.user.id !== ownTwitterId &&mention.in_reply_to_status.text && mention.in_reply_to_status.text
+    return mention.in_reply_to_status && mention.in_reply_to_status.user.id !== ownTwitterId && mention.in_reply_to_status.text && mention.in_reply_to_status.text
 
         .split(" ")
         .map(word => word.toLowerCase()).indexOf(ownTwitterScreenName) > -1;
@@ -86,7 +86,7 @@ async function replyToNewMentions(mentionReplier) {
                 console.error(err);
                 throw err;
             }
-            console.log("Mentions:", mentions);
+            console.log("Mentions:", mentions.length, "\n", mentions.map(m => m.text));
             for (let mention of mentions) {
                 console.log("Replying to", mention.id_str);
 
