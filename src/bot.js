@@ -5,15 +5,26 @@ Provide a "test mention" by running `node bot.js 'test'`, with any text of your 
 
 const topicDiscoverer = require("./topic_discoverer");
 const newsSelector = require('./news_selector');
-const {simplifyTopic} = require("./topic_simplifier");
+const {simplifyTopic, removeUnknownWords} = require("./topic_simplifier");
 
 const maxTopicLength = 30;
 const maxNumberOfArticles = 5;
 
 function forceTopicMaxLength(topic) {
+    const startTopic = topic;
     while (topic.length > maxTopicLength) {
         topic = simplifyTopic(topic);
     }
+
+    // Check if topic is left, otherwise remove all obscure words & try again
+    if (!topic) {
+        topic = removeUnknownWords(startTopic);
+
+        while (topic.length > maxTopicLength) {
+            topic = simplifyTopic(topic);
+        }
+    }
+
     return topic;
 }
 
@@ -24,7 +35,7 @@ async function mentionReplier(mention) {
     topic = forceTopicMaxLength(topic);
 
     // Find topic in tweet above if topic is not found
-    if (topic.trim().length === 0 && mention.in_reply_to_status) {
+    if (topic && topic.trim().length === 0 && mention.in_reply_to_status) {
         topic = topicDiscoverer.discoverFromMention(mention.in_reply_to_status);
 
         topic = forceTopicMaxLength(topic);

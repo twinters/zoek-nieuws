@@ -29,4 +29,9 @@ function simplifyTopic(topic) {
     }
 }
 
+function removeUnknownWords(topic) {
+    return topic.split(" ").filter(word => unigrams[word]).join(" ");
+}
+
 exports.simplifyTopic = simplifyTopic;
+exports.removeUnknownWords = removeUnknownWords;
