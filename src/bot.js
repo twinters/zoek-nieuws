@@ -10,29 +10,43 @@ const {simplifyTopic} = require("./topic_simplifier");
 const maxTopicLength = 30;
 const maxNumberOfArticles = 5;
 
-async function mentionReplier(mention) {
-    let topic = topicDiscoverer.discoverFromMention(mention);
-
+function forceTopicMaxLength(topic) {
     while (topic.length > maxTopicLength) {
         topic = simplifyTopic(topic);
     }
-    if (topic.trim().length === 0) {
-        // TODO: look at tweet above
-    }
-    
+    return topic;
+}
 
-    if (topic.trim().length > 0) {
-        const articles = await newsSelector.search(topic, maxNumberOfArticles);
-        console.log("Found articles about", topic, ":\n", articles);
+async function mentionReplier(mention) {
+    let topic = topicDiscoverer.discoverFromMention(mention);
 
-        if (articles && articles.length) {
-            return "Hier zijn enkele artikels over \"" + topic + "\":\n"
-                + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
-        } else {
-            console.log("No articles found");
+    // Make topic shorter
+    topic = forceTopicMaxLength(topic);
+
+    // Find topic in tweet above if topic is not found
+    // if (topic.trim().length === 0) {
+    //     // TODO: look at tweet above
+    //
+    //     forceTopicMaxLength(topic);
+    // }
+
+
+    let articles = [];
+    while (topic.trim().length > 0 && (!articles || !articles.length)) {
+        articles = await newsSelector.search(topic, maxNumberOfArticles);
+
+        // If nothing found, simplify topic by removing frequent words
+        if (!articles || !articles.length) {
+            topic = simplifyTopic(topic);
         }
+    }
+    console.log("Found articles about", topic, ":\n", articles);
+
+    if (articles && articles.length) {
+        return "Hier zijn enkele artikels over \"" + topic + "\":\n"
+            + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
     } else {
-        console.log("Empty topic for", mention);
+        console.log("No articles found");
     }
 }
 
