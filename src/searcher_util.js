@@ -7,7 +7,7 @@ async function searchRaw(url) {
             const response = await axios.get(url);
             rawArticleData = response.data;
         } catch (error) {
-            console.log("error in searching ", url, error.response.body);
+            console.log("error in searching ", url, error.response && error.response.body);
         }
     })();
     return rawArticleData;
