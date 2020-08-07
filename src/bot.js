@@ -60,7 +60,7 @@ async function mentionReplier(mention) {
         return "Hier zijn enkele artikels over \"" + topic + "\":\n"
             + articles.map(a => a.url).slice(0, maxNumberOfArticles).join("\n");
     } else {
-        console.log("No articles found");
+        console.log("No articles found about", topic);
     }
 }
 
