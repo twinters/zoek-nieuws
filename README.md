@@ -1,10 +1,10 @@
 # ZoekNieuws
 
-This Twitterbot aims to give people easy access to recent news about a certain topic.
+The [@ZoekNieuws Twitterbot](https://twitter.com/ZoekNieuws) aims to give people easy access to recent news about a certain topic.
 
 ## Twitterbot usage
 
-When you tag @ZoekNieuws on Twitter, it will check your tweet for search terms, and otherwise search the tweet you replied to for search terms.
+When you tag [@ZoekNieuws](https://twitter.com/ZoekNieuws) on Twitter, it will check your tweet for search terms, and otherwise search the tweet you replied to for search terms.
 Terms between quote marks will get priority when searching for search terms.
 
 ### Example tweets & behaviour
