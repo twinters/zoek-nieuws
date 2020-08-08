@@ -32,6 +32,10 @@ This bot was created out of [a need @ArbiterOfTweets](https://twitter.com/Arbite
 - Run `npm install` in the main directory
 - Run `node src/bot.js 'any text here'` to query the bot with any test query
 
+## Adding new news sources
+
+New news sources can easily be added by adding a new Javascript file in the `src/news_sources/` folder. The module should export a function called `search(topic)` that receives a string topic as input, and returns a list of article objects as results. These articles have five fields, namely `title` (string), `date` (Date class), `content` (string), `url` (string) and `source` (string, likely fixed for your news source to be the name of the news outlet). See other modules in the `src/news_sources/` folder as an example!
+
 ## Data note
 The unigram data is calculated using the [Dutch Twitter Ngram Trends dataset](https://www.let.rug.nl/gosse/Ngrams/download.html).
 
