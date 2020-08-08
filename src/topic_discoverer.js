@@ -10,7 +10,7 @@ function extractTweetText(text) {
     return splitted.slice(firstMeaningfulWord).join(" ");
 }
 
-const bracketRegex = /["'](.*?)["']/;
+const bracketRegex = /["“'](.*?)["”']/;
 
 function discoverFromMention(mention) {
     const tweetText = extractTweetText(mention.text)
