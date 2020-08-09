@@ -15,12 +15,12 @@ async function search(topic) {
         const link = $(element).find('a').first().attr('href');
 
         // Time
-	const dateMatches = link.match(/(\d{4})\/(\d{2})\/(\d{2})/);
-	const time = new Date(parseInt(dateMatches[1]), parseInt(dateMatches[2]) - 1, parseInt(dateMatches[3]), 0, 0, 0);
+        const dateMatches = link.match(/(\d{4})\/(\d{2})\/(\d{2})/);
+        const date = new Date(parseInt(dateMatches[1]), parseInt(dateMatches[2]) - 1, parseInt(dateMatches[3]), 0, 0, 0);
 
         articles.push({
             title: title,
-            date: time,
+            date: date,
             content: content,
             url: link,
             source: "apache",
