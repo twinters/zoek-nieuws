@@ -8,8 +8,8 @@ function extractTweetText(text) {
         firstMeaningfulWord += 1;
     }
     return splitted.slice(firstMeaningfulWord)
-        .filter(word=>!word.startsWith("http"))
-        .filter(word=>word.indexOf("@") > 0)
+        .filter(word => !word.startsWith("http"))
+        .filter(word => word.indexOf("@") < 0)
         .join(" ");
 }
 
