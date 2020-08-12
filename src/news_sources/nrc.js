@@ -9,7 +9,6 @@ async function search(topic) {
     if (!rawData || !rawData.hits || !rawData.hits.length) {
         return []
     }
-    console.log(rawData.hits)
 
     // Collect article objects
     const articles = [];
