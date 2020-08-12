@@ -3,7 +3,7 @@ const $ = require('cheerio');
 const moment = require('moment');
 
 async function search(topic) {
-    const rawData = await searcherUtil.searchRaw(`https://www.apache.be/?s=${topic}`);
+    const rawData = await searcherUtil.searchRaw(`https://www.apache.be/?s=${topic.trim().split(" ").join("+")}`);
 
     if (!rawData) {
         return []
