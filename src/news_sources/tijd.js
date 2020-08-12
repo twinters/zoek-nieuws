@@ -13,7 +13,7 @@ async function search(topic) {
         articles.push({
             title: searchResult.title,
             date: new Date(searchResult.modified_date),
-            content: searchResult.summary,
+            summary: searchResult.summary,
             url: searchResult.url,
             source: "De Tijd"
         })

@@ -22,7 +22,7 @@ async function search(topic) {
         articles.push({
             title: title,
             date: momentDate.toDate(),
-            content: content,
+            summary: content,
             url: link,
             source: "De Standaard",
         })

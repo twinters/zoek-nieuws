@@ -16,7 +16,7 @@ async function search(topic) {
             articles.push({
                 title: searchResult.title,
                 date: new Date(searchResult.articleDates.publicationDate),
-                content: searchResult.content,
+                summary: searchResult.content,
                 url: searchResult.externalUrl,
                 source: "VRT NWS"
             })

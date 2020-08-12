@@ -21,7 +21,7 @@ async function search(topic) {
         articles.push({
             title: title,
             date: time,
-            content: content,
+            summary: content,
             url: link,
             source: "MO*",
         })

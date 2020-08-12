@@ -22,7 +22,7 @@ async function search(topic) {
             articles.push({
                 title: searchResult.headline,
                 date: new Date(searchResult.published_at),
-                content: searchResult.abstract,
+                summary: searchResult.abstract,
                 url: searchResult.url,
                 source: searchResult.publication
             })
