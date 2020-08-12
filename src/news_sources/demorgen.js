@@ -1,6 +1,8 @@
 const searcherUtil = require('../searcher_util');
 
-const $ = require('cheerio');
+const cheerio = require('cheerio');
+const $ = cheerio;
+
 async function search(topic) {
     const rawData = await searcherUtil.searchRaw(`https://www.demorgen.be/search?query=${topic.trim().replace(/\s+/g, '+')}`,
         {
@@ -16,7 +18,6 @@ async function search(topic) {
     $('article', rawData, '#main-content > .list-container').each((index, element) => {
 
         const title = $(element).find("h3").text().trim();
-        const content = "";
         const link = "https://www.demorgen.be" + $(element).find("a").attr("href");
 
         // Time
@@ -24,18 +25,36 @@ async function search(topic) {
 
         articles.push({
             title: title,
-            date: false,
-            content: content,
             url: link,
             source: "De Morgen*",
         })
     });
 
-    return articles.slice(0, 10);
+    // Select top articles, and scrape those dates (as not provided in search)
+    const selectedArticles = articles.slice(0, 10);
+
+    (await Promise.all(selectedArticles.map(article => addDateAndContent(article)) ));
+
+    return selectedArticles;
 }
+async function addDateAndContent(article) {
+    const rawPage =  await searcherUtil.searchRaw(article.url,
+        {
+            headers: {
+                Cookie: process.env.demorgen_cookie,
+            }
+        });
+
+    const $ = cheerio.load(rawPage);
+
+    article.date = new Date($("meta[property='article:published_time']").attr("content"));
+    article.content = $("p.artstyle__intro").text();
+    return article;
+}
+
 
 exports.search = search;
 
-// (async () => {
-//     console.log(await search("test"));
-// })();
+(async () => {
+    console.log(await search("test"));
+})();
