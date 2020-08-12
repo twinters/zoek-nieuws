@@ -12,6 +12,15 @@ async function search(topic) {
 
     // Sort so most recent article first
     allArticles.sort(function (a, b) {
+        if (!a.date && !b.date) {
+            return 0;
+        }
+        if (!a.date) {
+            return 1;
+        }
+        if (!b.date) {
+            return -1;
+        }
         return b.date - a.date;
     });
 
@@ -20,6 +29,3 @@ async function search(topic) {
 
 exports.search = search;
 
-// (async () => {
-//     console.log(await search("test"));
-// })();
