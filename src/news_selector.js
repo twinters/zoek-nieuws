@@ -11,7 +11,42 @@ async function search(topic) {
     const allArticles = (await Promise.all(newsSourcesSearchers.map(n => n.search(topic)))).flatMap(e => e);
 
     // Sort so most recent article first
-    allArticles.sort(function (a, b) {
+    sort(allArticles, topic);
+
+    return allArticles
+}
+
+function toWords(input) {
+    return input.replace(/[^0-9A-Z ]+/gi, "").toLocaleLowerCase().split(" ");
+}
+
+function calculateMatchingWords(article, topicWords) {
+    const articleWords = toWords(article.title + " " + article.summary);
+
+    let numberOfMatchingWords = 0;
+    for (const word of topicWords) {
+        if (articleWords.indexOf(word) >= 0) {
+            numberOfMatchingWords += 1;
+        }
+    }
+    return numberOfMatchingWords;
+}
+
+function sort(articles, topic) {
+
+    const topicWords = toWords(topic);
+
+    // Calculate number of matching words
+    for (const article of articles) {
+        article.matchingWords = calculateMatchingWords(article, topicWords);
+    }
+
+    articles.sort(function (a, b) {
+
+        if (a.matchingWords !== b.matchingWords) {
+            return b.matchingWords - a.matchingWords;
+        }
+
         if (!a.date && !b.date) {
             return 0;
         }
@@ -23,9 +58,10 @@ async function search(topic) {
         }
         return b.date - a.date;
     });
-
-    return allArticles
 }
 
 exports.search = search;
 
+(async () => {
+    console.log(await search("mondmasker test"));
+})();
