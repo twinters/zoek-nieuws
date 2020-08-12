@@ -26,7 +26,7 @@ async function search(topic) {
         articles.push({
             title: title,
             url: link,
-            source: "De Morgen*",
+            source: "De Morgen",
         })
     });
 
