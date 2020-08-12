@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const $ = cheerio;
 
 async function search(topic) {
-    const rawData = await searcherUtil.searchRaw(`https://www.demorgen.be/search?query=${topic.trim().replace(/\s+/g, '+')}`,
+    const rawData = await searcherUtil.searchRaw(`https://www.demorgen.be/search?query=${searcherUtil.replaceSpaces(topic)}`,
         {
             headers: {
                 Cookie: process.env.demorgen_cookie,

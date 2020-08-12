@@ -1,6 +1,10 @@
 const axios = require("axios");
 
-async function searchRaw(url, params={}) {
+function replaceSpaces(topic) {
+    return topic.trim().replace(/\s+/g, '+');
+}
+
+async function searchRaw(url, params = {}) {
     let rawArticleData = null;
     await (async () => {
         try {
@@ -14,3 +18,4 @@ async function searchRaw(url, params={}) {
 }
 
 exports.searchRaw = searchRaw;
+exports.replaceSpaces = replaceSpaces;
