@@ -1,4 +1,4 @@
-function extractTweetText(text) {
+function removeInitialTags(text) {
     if (!text) {
         return "";
     }
@@ -8,6 +8,10 @@ function extractTweetText(text) {
         firstMeaningfulWord += 1;
     }
     return splitted.slice(firstMeaningfulWord)
+}
+
+function extractTweetText(text) {
+    return removeInitialTags(text)
         .filter(word => !word.startsWith("http"))
         .filter(word => word.indexOf("@") < 0)
         .join(" ");
@@ -28,3 +32,4 @@ function discoverFromMention(mention) {
 }
 
 exports.discoverFromMention = discoverFromMention;
+exports.removeInitialTags = removeInitialTags;

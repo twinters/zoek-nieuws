@@ -61,7 +61,3 @@ function sort(articles, topic) {
 }
 
 exports.search = search;
-
-(async () => {
-    console.log(await search("mondmasker test"));
-})();

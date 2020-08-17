@@ -1,4 +1,5 @@
 const Twit = require('twit');
+const {removeInitialTags} = require("./topic_discoverer");
 
 // Twitter access
 const hasAuthentication = process.env.consumer_key && process.env.consumer_secret && process.env.access_token && process.env.access_token_secret,
@@ -64,10 +65,12 @@ async function getTweet(id) {
 }
 
 function mentionIsInReplyToOtherMention(mention) {
-    return mention.in_reply_to_status && mention.in_reply_to_status.user.id !== ownTwitterId && mention.in_reply_to_status.text && mention.in_reply_to_status.text
-
-        .split(" ")
-        .map(word => word.toLowerCase()).indexOf(ownTwitterScreenName) > -1;
+    return mention.in_reply_to_status && mention.in_reply_to_status.user.id_str !== ownTwitterId && mention.in_reply_to_status.text
+        // Check if tag is really in the text or just in reply
+        &&
+        removeInitialTags(mention.in_reply_to_status.text).split(" ")
+            .map(word => word.toLowerCase())
+            .indexOf(ownTwitterScreenName) === -1;
 }
 
 async function replyToNewMentions(mentionReplier) {
