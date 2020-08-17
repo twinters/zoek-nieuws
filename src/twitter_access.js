@@ -64,11 +64,16 @@ async function getTweet(id) {
     }
 }
 
-function mentionIsInReplyToOtherMention(mention) {
-    return mention.in_reply_to_status && mention.in_reply_to_status.user.id_str !== ownTwitterId && mention.in_reply_to_status.text
-        // Check if tag is really in the text or just in reply
-        &&
-        removeInitialTags(mention.in_reply_to_status.text).split(" ")
+function mentionIsPurelyInReplyToOtherMention(mention) {
+    return mention.in_reply_to_status
+        && mention.in_reply_to_status.user.id_str !== ownTwitterId
+        && mention.in_reply_to_status.text
+            .split(" ")
+            .map(word => word.toLowerCase())
+            .indexOf(ownTwitterScreenName) > -1
+        // Check if tag is really in the text or just in reply tags
+        && removeInitialTags(mention.text)
+            .split(" ")
             .map(word => word.toLowerCase())
             .indexOf(ownTwitterScreenName) === -1;
 }
@@ -105,7 +110,7 @@ async function replyToNewMentions(mentionReplier) {
                     }
 
                     // Don't reply if the tweet it replies to, is also a mention (to avoid spamming whole chain)
-                    if (!mentionIsInReplyToOtherMention(mention)) {
+                    if (!mentionIsPurelyInReplyToOtherMention(mention)) {
                         const replyText = await mentionReplier(mention);
 
                         // Check if reply text is generated

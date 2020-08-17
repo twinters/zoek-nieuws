@@ -7,11 +7,12 @@ function removeInitialTags(text) {
     while (firstMeaningfulWord < splitted.length && splitted[firstMeaningfulWord].startsWith("@")) {
         firstMeaningfulWord += 1;
     }
-    return splitted.slice(firstMeaningfulWord)
+    return splitted.slice(firstMeaningfulWord).join(" ")
 }
 
 function extractTweetText(text) {
     return removeInitialTags(text)
+        .split(" ")
         .filter(word => !word.startsWith("http"))
         .filter(word => word.indexOf("@") < 0)
         .join(" ");
