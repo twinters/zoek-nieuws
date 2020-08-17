@@ -85,7 +85,7 @@ async function replyToNewMentions(mentionReplier) {
             count: 100,
             since_id: (lastRepliedMentionId + ''),
         }, async function (err, mentions, response) {
-            if (!mentions || !mentions.length) {
+            if (!mentions) {
                 console.error("No mentions found!", err, response.data);
             }
 
