@@ -21,7 +21,7 @@ function extractTweetText(text) {
 const bracketRegex = /["“'](.*?)["”']/;
 
 function discoverFromMention(mention) {
-    const tweetText = extractTweetText(mention.text)
+    const tweetText = extractTweetText(mention.full_text)
         // Replace all punctuations
         .replace(/[.,\/#@!$;:{}=_`~()]/g, "");
 

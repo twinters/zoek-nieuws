@@ -50,7 +50,7 @@ async function findAndSetLastRepliedToMention() {
 async function getTweet(id) {
     try {
         return await new Promise((resolve, reject) => {
-            T.get(`statuses/show/${id}`, {}, function (err, data, response) {
+            T.get(`statuses/show/${id}`, {tweet_mode:'extended'}, function (err, data, response) {
                 if (err) {
                     reject(err);
                 } else {
@@ -67,12 +67,12 @@ async function getTweet(id) {
 function mentionIsPurelyInReplyToOtherMention(mention) {
     return mention.in_reply_to_status
         && mention.in_reply_to_status.user.id_str !== ownTwitterId
-        && mention.in_reply_to_status.text
+        && mention.in_reply_to_status.full_text
             .split(" ")
             .map(word => word.toLowerCase())
             .indexOf(ownTwitterScreenName) > -1
         // Check if tag is really in the text or just in reply tags
-        && removeInitialTags(mention.text)
+        && removeInitialTags(mention.full_text)
             .split(" ")
             .map(word => word.toLowerCase())
             .indexOf(ownTwitterScreenName) === -1;
@@ -84,6 +84,7 @@ async function replyToNewMentions(mentionReplier) {
         T.get('statuses/mentions_timeline', {
             count: 100,
             since_id: (lastRepliedMentionId + ''),
+            tweet_mode:'extended',
         }, async function (err, mentions, response) {
             if (!mentions) {
                 console.error("No mentions found!", err, response.data);
@@ -94,7 +95,7 @@ async function replyToNewMentions(mentionReplier) {
                 console.error(err);
                 throw err;
             }
-            console.log("Mentions:", mentions.length, "\n", mentions.map(m => m.user.screen_name + ": " + m.text));
+            console.log("Mentions:", mentions.length, "\n", mentions.map(m => m.user.screen_name + ": " + m.full_text));
             for (let mention of mentions) {
                 console.log("Replying to", mention.id_str);
 
