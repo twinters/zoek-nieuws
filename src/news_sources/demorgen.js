@@ -33,22 +33,27 @@ async function search(topic) {
     // Select top articles, and scrape those dates (as not provided in search)
     const selectedArticles = articles.slice(0, 10);
 
-    (await Promise.all(selectedArticles.map(article => addDateAndContent(article)) ));
+    (await Promise.all(selectedArticles.map(article => addDateAndContent(article))));
 
     return selectedArticles;
 }
+
 async function addDateAndContent(article) {
-    const rawPage =  await searcherUtil.searchRaw(article.url,
+    const rawPage = await searcherUtil.searchRaw(article.url,
         {
             headers: {
                 Cookie: process.env.demorgen_cookie,
             }
         });
 
-    const $ = cheerio.load(rawPage);
+    try {
+        const $ = cheerio.load(rawPage);
+        article.date = new Date($("meta[property='article:published_time']").attr("content"));
+        article.content = $("p.artstyle__intro").text();
+    } catch (e) {
+        console.error("Exception:", e);
+    }
 
-    article.date = new Date($("meta[property='article:published_time']").attr("content"));
-    article.content = $("p.artstyle__intro").text();
     return article;
 }
 
