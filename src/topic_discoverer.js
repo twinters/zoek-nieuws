@@ -31,10 +31,14 @@ const bracketRegex = /["“'](.*?)["”']/;
 function discoverFromMention(mention) {
     const tweetText = extractTweetText(mention.full_text)
         // Replace all punctuations
-        .replace(/[.,\/#@!$;:{}=_`~()]/g, "");
+        .replace(/[.,\/#@!$;:{}=_`~()]/g, "")
+        // Replace emoji
+        .replace(/[^\p{L}\p{N}\p{P}\p{Z}]/gu, '')
+        .trim();
 
-    if (tweetText.match(bracketRegex)) {
-        return tweetText.match(bracketRegex)[1]
+    const matches = tweetText.match(bracketRegex)
+    if (matches) {
+        return matches[1]
     }
 
     return tweetText;
