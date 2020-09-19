@@ -67,14 +67,11 @@ async function mentionReplier(mention) {
 exports.mentionReplier = mentionReplier;
 
 // Test function
-const arg = process.argv[2];
-if (require.main === module && arg) {
-    (async () => {
-        // Create fake mention
-        const mockMention = {
-            text: arg || "@ZoekNieuws dit is een \"test\""
-        };
-
-        console.log(await mentionReplier(mockMention))
-    })();
-}
+// (async () => {
+//     // Create fake mention
+//     const mockMention = {
+//         full_text: "Hier komt een test tweet"
+//     };
+//
+//     console.log(await mentionReplier(mockMention))
+// })();
