@@ -26,7 +26,7 @@ function extractTweetText(text) {
         .join(" ");
 }
 
-const bracketRegex = /["“'’](.*?)["”'’]/;
+const bracketRegex = /["“'’‘](.*?)["”'’‘]/;
 
 function discoverFromMention(mention) {
     const tweetText = extractTweetText(mention.full_text)
